@@ -56,6 +56,7 @@ def print_lld_json(alerts=[]):
         lld["{#AMAL_URL}"] = alert["href"]
         lld["{#AMAL_NAME}"] = alert["Alert"]["definition_name"]
         lld["{#AMAL_SVC}"] = alert["Alert"]["service_name"]
+        lld["{#AMAL_HOSTNAME}"] = alert["Alert"]["host_name"]
         lld_json["data"].append(lld)
     print json.dumps(lld_json, indent=4, sort_keys=True)
 

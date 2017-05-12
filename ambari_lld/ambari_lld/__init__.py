@@ -3,6 +3,7 @@
 import argparse
 import json
 import requests
+import sys
 
 AMBARI_API = {}
 
@@ -40,7 +41,17 @@ def get_cluster_name():
     there is just one cluster per ambari
     """
     url = "%s/clusters/" % (AMBARI_API["url"])
-    cluster_info = requests.get(url, headers=AMBARI_API["headers"], auth=AMBARI_API["auth"])
+    try:
+        cluster_info = requests.get(url, headers=AMBARI_API["headers"], auth=AMBARI_API["auth"])
+    except requests.exceptions.ConnectionError:
+        print "Can't connect to %s - Connection refused" % (url)
+        sys.exit(1)
+    except requests.exceptions.InvalidSchema:
+        print "Can't connect to %s - Invalid URL (missing http(s):// ?)" % (url)
+        sys.exit(1)
+    if cluster_info.status_code != 200:
+        print "No valid Ambari cluster found at %s" % (url)
+        sys.exit(1)
     return cluster_info.json()["items"][0]["Clusters"]["cluster_name"]
 
 def print_lld_json(alerts=[]):

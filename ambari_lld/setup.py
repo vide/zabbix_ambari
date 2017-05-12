@@ -12,7 +12,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 setup(
     name='ambari_lld',
-    version='0.0.1',
+    version='0.0.1a',
     description='Ambari alerts as Zabbix LLD items',
     long_description=long_description,
     url='https://github.com/vide/zabbix_ambari',
